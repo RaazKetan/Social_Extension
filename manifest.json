@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Social Media Links CRUD",
+    "name": "Link Loom",
     "version": "1.0",
     "description": "Manage your social media links.",
     "permissions": [
@@ -9,16 +9,18 @@
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "128": "icons/icon128.png"
+        "16": "icons/icon16.jpg",
+      "48": "icons/icon48.jpg",
+      "128": "icons/icon128.jpg"
       }
     },
     "background": {
       "service_worker": "background.js"
     },
     "icons": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "icons/icon16.jpg",
+      "48": "icons/icon48.jpg",
+      "128": "icons/icon128.jpg"
     }
   }
   
