@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const platformInput = document.getElementById('platform');
   const urlInput = document.getElementById('url');
   const linkList = document.getElementById('linkList');
+  let editMode = false;
+  let editPlatform = '';
 
   function saveLink(platform, url) {
     chrome.storage.sync.get(['links'], (result) => {
@@ -43,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="icon copy" data-url="${links[platform]}">
             <img src="img/copy.png" alt="Copy">
           </button>
+          <button class="icon edit" data-platform="${platform}" data-url="${links[platform]}">
+            <img src="img/edit.png" alt="Edit">
+          </button>
           <button class="icon delete" data-platform="${platform}">
             <img src="img/delete.png" alt="Delete">
           </button>
@@ -57,6 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const platform = platformInput.value.trim();
     const url = urlInput.value.trim();
     if (platform && url) {
+      if (editMode) {
+        deleteLink(editPlatform); // Remove old entry if editing
+        editMode = false;
+        editPlatform = '';
+      }
       saveLink(platform, url);
       platformInput.value = '';
       urlInput.value = '';
@@ -70,6 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (event.target.closest('.copy')) {
       const url = event.target.closest('.copy').getAttribute('data-url');
       copyLink(url);
+    } else if (event.target.closest('.edit')) {
+      const platform = event.target.closest('.edit').getAttribute('data-platform');
+      const url = event.target.closest('.edit').getAttribute('data-url');
+      platformInput.value = platform;
+      urlInput.value = url;
+      editMode = true;
+      editPlatform = platform;
     }
   });
 

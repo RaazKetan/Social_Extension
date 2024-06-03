@@ -15,16 +15,14 @@ form {
 
 input {
   margin-bottom: 10px;
-  padding: 5px;
-}
-
-button {
-  padding: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
 }
 
 ul {
   list-style: none;
-  padding: 0;
+  padding: 10px;
 }
 
 li {
@@ -37,7 +35,17 @@ li {
 a {
   text-decoration: none;
 }
+button{
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
 
+}
 button.icon {
   background: none;
   border: none;
