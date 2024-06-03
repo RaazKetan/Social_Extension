@@ -10,9 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.get(['links'], (result) => {
       const links = result.links || {};
       links[platform] = url;
-      chrome.storage.sync.set({ links }, () => {
-        renderLinks();
-      });
+      chrome.storage.sync.set({ links }, renderLinks);
     });
   }
 
@@ -20,15 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.sync.get(['links'], (result) => {
       const links = result.links || {};
       delete links[platform];
-      chrome.storage.sync.set({ links }, () => {
-        renderLinks();
-      });
+      chrome.storage.sync.set({ links }, renderLinks);
     });
   }
 
-  function copyLink(url) {
+  function copyLink(button, url) {
     navigator.clipboard.writeText(url).then(() => {
-      alert('Link copied to clipboard');
+      const icon = button.querySelector('img');
+      const originalIcon = icon.src;
+
+      icon.src = 'https://img.icons8.com/material-sharp/48/checked--v1.png';
+      setTimeout(() => {
+        icon.src = originalIcon;
+      }, 1000);
     }).catch(err => {
       console.error('Could not copy text: ', err);
     });
@@ -40,17 +42,22 @@ document.addEventListener('DOMContentLoaded', () => {
       linkList.innerHTML = '';
       for (const platform in links) {
         const li = document.createElement('li');
+        li.className = 'link-item';
         li.innerHTML = `
-          <a href="${links[platform]}" target="_blank">${platform}</a>
-          <button class="icon copy" data-url="${links[platform]}">
-            <img src="img/copy.png" alt="Copy">
-          </button>
-          <button class="icon edit" data-platform="${platform}" data-url="${links[platform]}">
-            <img src="img/edit.png" alt="Edit">
-          </button>
-          <button class="icon delete" data-platform="${platform}">
-            <img src="img/delete.png" alt="Delete">
-          </button>
+          <div class="link-name">
+            <a href="${links[platform]}" target="_blank">${platform}</a>
+            <button class="icon copy" data-url="${links[platform]}">
+              <img width="16" height="16" src="https://img.icons8.com/material-rounded/48/copy.png" alt="copy"/>
+            </button>
+          </div>
+          <div class="link-buttons">
+            <button class="icon edit" data-platform="${platform}" data-url="${links[platform]}">
+              <img width="16" height="16" src="https://img.icons8.com/fluency-systems-regular/48/pen-squared.png" alt="pen-squared"/>
+            </button>
+            <button class="icon delete" data-platform="${platform}">
+              <img width="16" height="16" src="https://img.icons8.com/color/48/delete-sign--v1.png" alt="delete-sign--v1"/>
+            </button>
+          </div>
         `;
         linkList.appendChild(li);
       }
@@ -78,8 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const platform = event.target.closest('.delete').getAttribute('data-platform');
       deleteLink(platform);
     } else if (event.target.closest('.copy')) {
-      const url = event.target.closest('.copy').getAttribute('data-url');
-      copyLink(url);
+      const button = event.target.closest('.copy');
+      const url = button.getAttribute('data-url');
+      copyLink(button, url);
     } else if (event.target.closest('.edit')) {
       const platform = event.target.closest('.edit').getAttribute('data-platform');
       const url = event.target.closest('.edit').getAttribute('data-url');
