@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Link Loom",
+    "name": "Anchor",
     "version": "1.0",
     "description": "Manage your social media links.",
     "permissions": [

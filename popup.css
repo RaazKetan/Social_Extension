@@ -30,6 +30,9 @@ li {
   justify-content: space-between;
   align-items: center;
   padding: 5px 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 0.5s forwards;
 }
 
 a {
@@ -62,6 +65,10 @@ a {
 
 .icon img {
   cursor: pointer;
+  transition: transform 0.2s;
+}
+.icon img:hover {
+  transform: scale(1.2);
 }
 
 button {
@@ -73,6 +80,11 @@ button {
   border-radius: 20px;
   cursor: pointer;
   width: 100%;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 button.icon {
@@ -84,4 +96,10 @@ button.icon {
 button.icon img {
   width: 16px;
   height: 16px;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
