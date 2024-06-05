@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let editMode = false;
   let editPlatform = '';
 
+  function isValidURL(url) {
+    try {
+      new URL(url);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function saveLink(platform, url) {
     chrome.storage.sync.get(['links'], (result) => {
       const links = result.links || {};
@@ -30,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       icon.src = 'https://img.icons8.com/material-sharp/48/checked--v1.png';
       setTimeout(() => {
         icon.src = originalIcon;
-      }, 1000);
+      }, 500);
     }).catch(err => {
       console.error('Could not copy text: ', err);
     });
@@ -68,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     const platform = platformInput.value.trim();
     const url = urlInput.value.trim();
-    if (platform && url) {
+    if (platform && isValidURL(url)) {
       if (editMode) {
         deleteLink(editPlatform); // Remove old entry if editing
         editMode = false;
@@ -77,6 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
       saveLink(platform, url);
       platformInput.value = '';
       urlInput.value = '';
+    } else {
+      if (!isValidURL(url)) {
+        urlInput.classList.add('invalid');
+        setTimeout(() => urlInput.classList.remove('invalid'), 3000);
+      }
     }
   });
 

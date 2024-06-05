@@ -103,3 +103,7 @@ button.icon img {
     transform: translateY(0);
   }
 }
+.invalid {
+  border-color: red;
+  background-color: #ffe6e6;
+}
