@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       icon.src = 'https://img.icons8.com/material-sharp/48/checked--v1.png';
       setTimeout(() => {
         icon.src = originalIcon;
-      }, 500);
+      }, 100);
     }).catch(err => {
       console.error('Could not copy text: ', err);
     });

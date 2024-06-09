@@ -1,13 +1,13 @@
 {
     "name": "Anchor",
     "version": "1.0.0",
-    "description": "A description of your Chrome extension",
+    "description": "Manage your social media links.",
     "main": "popup.js",
     "scripts": {
         "test": "jest"
     },
     "author": "Ketan",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "jest": "^29.7.0"
     },
